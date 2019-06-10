@@ -1,0 +1,124 @@
+{% extends 'main/index.html' %}
+{% load static %}
+
+{% block title %}關於我們{% endblock %}
+
+{% block login_status %}
+
+<li><a href="/login/company/">企業登入</a></li>
+<li><a href="/login/member/">會員登入</a></li>
+
+{% endblock %}
+
+{% block body_content %} 
+
+<section class="single-page-title single-page-title-about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2><B>About us</B></h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="about-text">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>來自台科資管系的小團隊</h2>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>我們的初衷：
+                </p>
+                <p>藉由我們的網站，為您尋求到一個好的工作，能夠去發揮所長，來換取個人的所需。
+                </p>
+                <p>讓畢業的學長姐能夠多多關照學弟妹們，指引出未來的方向。
+                </p>
+                <p>在未來的路上，能夠有更多不同的能力
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="team-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>我們的成員</h2>
+            </div>
+        </div>   
+        <div class="team-member">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <figure class="thumbnail">
+                            <img src="{% static 'imgs/img-team-1.png' %}" class="img-responsive" alt="Image">
+                            <figcaption class="caption text-center">
+                                <h3>李政翰</h3>
+                                <p>四資管二</p>
+                                <p>B10609037</p>
+                                <hr>
+                                <ul class="social-links">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-sm-4">
+                        <figure class="thumbnail">
+                            <img src="{% static 'imgs/img-team-2.png' %}" class="img-responsive" alt="Image">
+                            <figcaption class="caption text-center">
+                                <h3>徐儀翔</h3>
+                                <p>四資管二</p>
+                                <p>B10609011</p>
+                                <hr>
+                                <ul class="social-links">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-sm-4">
+                        <figure class="thumbnail">
+                            <img src="{% static 'imgs/img-team-3.png' %}" class="img-responsive" alt="Image">
+                            <figcaption class="caption text-center">
+                                <h3>陳昱棋</h3>
+                                <p>四資管二</p>
+                                <p>B10609020</p>
+                                <hr>
+                                <ul class="social-links">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-sm-4">
+                        <figure class="thumbnail">
+                            <img src="{% static 'imgs/img-team-4.png' %}" class="img-responsive" alt="Image">
+                            <figcaption class="caption text-center">
+                                <h3>葉承鑫</h3>
+                                <p>四資管二</p>
+                                <p>B10609000</p>
+                                <hr>
+                                <ul class="social-links">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+{% endblock %}

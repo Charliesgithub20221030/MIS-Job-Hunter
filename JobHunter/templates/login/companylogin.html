@@ -1,0 +1,69 @@
+{% extends 'login/index.html' %}
+{% load static %}
+
+
+{% block title %}企業登入{% endblock %}
+
+{% block body_content %} 
+
+<div class="container">    
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">企業登入</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">忘記密碼?</a></div>
+                    </div>     
+
+                    <div style="padding-top:30px" class="panel-body" >
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                            
+                        <form id="loginform" action="/login/company/" method="POST" class="form-horizontal" role="form">
+                            {% csrf_token %}
+                                    
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="text" class="form-control" name="id" value="" placeholder="Company ID">                                        
+                                    </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="pwd" placeholder="Password">
+                                    </div>
+                                    
+
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div  class="col-sm-12 controls">
+
+                                      <input style="width: 100%;"  id="btn-login" type="submit" class="btn btn-success" value="登入">
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                            想萬中選中人才嗎？ 
+                                        <a href="/signup/company/" >馬上註冊企業帳號</a>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </form>     
+
+
+
+                        </div>                     
+                    </div>  
+        </div>
+
+        
+    </div>
+
+{% endblock %}
+
+
+

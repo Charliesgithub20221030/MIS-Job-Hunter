@@ -1,0 +1,107 @@
+
+<!-- 記得修改要繼承的template -->
+{% extends 'main/index.html' %}
+
+
+{% load static %}
+
+{% block title %}更多工作{% endblock %}
+
+{% block login_status %} 
+
+{% endblock %}
+
+
+{% block body_content %} 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+<div class="container">
+    <div class="row">
+        
+        
+        <div class="col-md-12">
+        <h4>所有工作</h4>
+        <div class="table-responsive">
+
+                
+              <table id="mytable" class="table table-bordred table-striped">
+                   
+                   <thead>
+                   
+                   <th width="3%"><input type="checkbox" id="checkall" /></th>
+                   <th width="14%">公司名稱</th>
+                    <th width="13%">職稱</th>
+                     <th width="46%">工作內容</th>
+                     <th width="7%">薪資</th>
+                     <th width="13%">聯絡資訊</th>
+                      <th width="7%">詳細資料</th>
+                       <th width="7%">加入最愛</th>
+                   </thead>
+    <tbody>
+    <td><input type="checkbox" class="checkthis" /></td>
+    <td>鴻海集團</td>
+    <td>資訊工程師</td>
+    <td>系統平台的建置、網路伺服器功能建置與管理、帳號權限的組態與管理。</td>
+    <td>45K/月</td>
+    <td>+886 900123456</td>
+    <td><p data-placement="top" data-toggle="tooltip" title="更多資訊"><button class="btn btn-primary btn-xs" data-title="MoreInfomation" data-toggle="modal" data-target="#moreinformation" ><span class="glyphicon glyphicon-option-horizontal"></span></button></p></td>
+    <td><p data-placement="top" data-toggle="tooltip" title="加入最愛"><button class="btn btn-danger btn-xs" data-title="Loved" data-toggle="modal" data-target="#loved" ><span class="glyphicon glyphicon-heart"></span></button></p></td>
+    </tr>
+    
+        
+</table>
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+  <li class="active"><a href="#">1</a></li>
+  <li><a href="/main/jobs/{{page|add:1}}/">2</a></li>
+  <li><a href="/main/jobs/{{page|add:2}}/">3</a></li>
+  <li><a href="/main/jobs/{{page|add:3}}/">4</a></li>
+  <li><a href="/main/jobs/{{page|add:4}}/">5</a></li>
+  <li><a href="/main/jobs/{{page|add:1}}/"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+</ul>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Loved Modal -->
+<div id="loved" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>已加入至我的最愛</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+        $("#mytable #checkall").click(function () {
+                if ($("#mytable #checkall").is(':checked')) {
+                    $("#mytable input[type=checkbox]").each(function () {
+                        $(this).prop("checked", true);
+                    });
+
+                } else {
+                    $("#mytable input[type=checkbox]").each(function () {
+                        $(this).prop("checked", false);
+                    });
+                }
+            });
+        $("[data-toggle=tooltip]").tooltip();
+
+        });
+
+    </script>
+{% endblock %}

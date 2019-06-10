@@ -1,0 +1,87 @@
+
+<!-- 記得修改要繼承的template -->
+{% extends 'signup/index.html' %}
+{% load static %}
+
+
+
+{% block title %}會員註冊{% endblock %}
+
+{% block body_content %} 
+
+<div class="container"> 
+        <div id="signupbox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">註冊會員</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"></div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="signupform" class="form-horizontal" role="form" action="/signup/member/" method="POST">
+                                {% csrf_token %}
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="username" class="col-md-3 control-label">使用者名稱</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="username" placeholder="User Name">
+                                    </div>
+                                </div>
+                                  
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="firstname" class="col-md-3 control-label">姓</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">名</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">密碼</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="pwd" placeholder="Password">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="confirm-pwd" class="col-md-3 control-label">確認密碼</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="confirm-pwd" placeholder="Confirm Password">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <!-- Button -->            
+
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <input style="width: 100%;font-weight: bold;" id="btn-signup" type="submit" class="btn btn-info" value="立即註冊">
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                            </form>
+                         </div>
+                    </div>
+
+               
+               
+                
+         </div> 
+    </div>
+{% endblock %}

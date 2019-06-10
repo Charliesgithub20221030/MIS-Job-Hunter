@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Hunter - </title>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/mobile-menu.css' %}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">    
+    <link href="{% static 'fonts/flaticon/flaticon.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<!-- JS特效 -->
+<div id="main-wrapper">
+<div id="preloader">
+    <div id="status">
+        <div class="status-mes"></div>
+    </div>
+</div>
+<div class="uc-mobile-menu-pusher">
+<div class="content-wrapper">
+
+
+<!-- 網頁內容開始 -->
+
+    <!-- 上排選單 -->
+<nav class="navbar m-menu navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/main/"><img src="{% static 'imgs/logo.png' %}" alt=""></a>
+        </div>
+        <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right main-nav">
+                <li><a href="/main/">HOME</a></li>
+                <li><a href="/login/company/">企業登入</a></li>                  
+                <li><a href="/login/member/">會員登入</a></li>
+                <li><a href="/main/jobs/">更多工作</a></li>              
+                <li><a href="/main/about/">關於我們</a></li>  
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- 網頁主要內容開始 -->
+
+
+
+    <!-- 網頁主要內容結束 -->
+    
+
+    <!-- 頁尾資訊欄 -->
+
+<footer class="footer">
+    <div style="position: relative; bottom: 0; width: 100%" class="copyright-section">
+        <div class="container clearfix">
+            <ul class="list-inline pull-right">
+                <li class="active"><a href="/main/">Job Hunter</a></li>         
+                <li class="phone"><i class="fa fa-phone-square" aria-hidden="true"></i> 0900123456</li>
+                    <li class="email"><i class="fa fa-envelope" aria-hidden="true"></i>
+                    admin@jobhunter.com
+                    </li>
+                <li><a href="/main/joinus/">加入我們</a></li>
+                <li><a href="/main/about/">關於我們</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+
+<!-- 網頁內容結束 -->
+
+<!-- JS 引入 -->
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/smoothscroll.js' %}"></script>
+<script src="{% static 'js/mobile-menu.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+
+</body>
+</html>

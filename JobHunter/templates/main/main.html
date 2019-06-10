@@ -1,0 +1,131 @@
+{% extends 'main/index.html' %}
+{% load static %}
+
+
+{% block title %}{% endblock %}
+
+{% block login_status %} 
+<li><a href="/login/company/">企業登入</a></li>
+<li><a href="/login/member/">會員登入</a></li>
+{% endblock %}
+
+{% block body_content %} 
+
+<section class="single-page-title single-page-title-hunting">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2><b>HUNTING</b></h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-content-left-icon">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="left-icon-wraper">
+                    <div class="icon">
+                        <i><img src="{% static 'imgs/cms.png' %}" alt=""></i>
+                    </div>
+                    <div class="content">
+                    <h2>軟體工程師</h2>
+                    <p><li><a href="#">xxx公司</a></li></p>
+                    <p><li><a href="#">yyy公司</a></li></p>
+                    <p><li><a href="#">zzz公司</a></li></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="left-icon-wraper">
+                <div class="icon"><i><img src="{% static 'imgs/shield.png' %}" alt=""></i></div>
+                <div class="content">
+                    <h2>資料安全工程師</h2>
+                    <p><li><a href="#">xxx公司</a></li></p>
+                    <p><li><a href="#">yyy公司</a></li></p>
+                    <p><li><a href="#">zzz公司</a></li></p>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="left-icon-wraper">
+                <div class="icon"><i> <img src="{% static 'imgs/folded-newspaper.png' %}" alt=""></i></div>
+                <div class="content">
+                     <h2>資料工程師</h2>
+                    <p><li><a href="#">xxx公司</a></li></p>
+                    <p><li><a href="#">yyy公司</a></li></p>
+                    <p><li><a href="#">zzz公司</a></li></p>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="left-icon-wraper">
+                <div class="icon"><i> <img src="{% static 'imgs/icon.png' %}" alt=""></i></div>
+                 <div class="content">
+                     <h2>IC設計工程師</h2>
+                    <p><li><a href="#">xxx公司</a></li></p>
+                    <p><li><a href="#">yyy公司</a></li></p>
+                    <p><li><a href="#">zzz公司</a></li></p>
+                 </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="left-icon-wraper">
+                <div class="icon"><i> <img src="{% static 'imgs/website.png' %}" alt=""></i></div>
+                 <div class="content">
+                     <h2>資料科學家</h2>
+                    <p><li><a href="#">xxx公司</a></li></p>
+                    <p><li><a href="#">yyy公司</a></li></p>
+                    <p><li><a href="#">zzz公司</a></li></p>
+                 </div> 
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="left-icon-wraper">
+                <div class="icon"><i> <img src="{% static 'imgs/conversation.png' %}" alt=""></i></div>
+                <div class="content">
+                    <p><li><a href="#">xxx公司</a></li></p>
+                    <p><li><a href="#">yyy公司</a></li></p>
+                    <p><li><a href="#">zzz公司</a></li></p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<footer class="footer">
+    <div class="footer-widget-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-logo">
+                        <a href="#"><img class="img-responsive" src="{% static 'imgs/logo-footer.png' %}" alt=""></a>
+                    </div>
+                </div><!-- /.col-sm-4 -->
+
+                <div class="col-md-8">
+                    <div class="footer-text">  
+                      <p>
+                      不要杞人憂天。煩惱並不會減少明天的負擔，卻會失去今天的快樂。
+                      </p>
+                      <p>
+                      青春就像是切洋蔥，我們都淚流滿面，卻還樂此不疲。
+                      </p>
+                      <p>
+                      沒有不會淡的疤,沒有不會好的傷，沒有不會停下來的絕望。
+                      </p>
+                      <p>人遠比自己想象的要堅強，特別是當你回頭看看的時候，你會發現自己走了一段自己都沒想到的路。</p>
+                    </div>
+                </div><!-- .col-sm-4 -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
