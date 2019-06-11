@@ -1,0 +1,134 @@
+{% extends 'main/index.html' %}
+{% load static %}
+
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block body_content %} 
+
+<div class="container"> 
+        <div id="modifybox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">會員資料</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"></div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="modifyform" class="form-horizontal" role="form" action="/main/member/update/" method="POST">
+                                {% csrf_token %}
+                                <div id="modifyalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="username" class="col-md-3 control-label" >使用者名稱</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="username" placeholder="User Name" value="{{user_detail.username}}" disabled="disabled">
+                                    </div>
+                                </div>
+                                  
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address" value="{{user_detail.email}}">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                        <label for="lastname" class="col-md-3 control-label">姓</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="lastname" placeholder="Last Name" value="{{user_detail.lastname}}">
+                                        </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstname" class="col-md-3 control-label">名</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="firstname" placeholder="First Name" value="{{user_detail.firstname}}">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">學號</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="mis_id" placeholder="Mis ID" value="{{user_detail.ntust_id}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">履歷</label>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control rounded-0" name="resume" form="modifyform">{{user_detail.resume}}</textarea>
+                                    </div>
+                                </div>
+
+                                    
+                                <div class="form-group">
+                                    <!-- Button -->           
+                                        
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <input style="width: 100%;font-weight: bold;" id="btn-signup" type="submit" class="btn btn-info" value="儲存修改">
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                            </form>
+                            <button class="btn btn-primary btn-xs modifypwd" data-title="modifypwd" data-toggle="modal" data-target="#modifypwd_modal" value="{{user_detail.username}}">修改密碼</button>
+                                 
+                            <div><h3 style="color: red;">{{ msg }}</h3></div>
+                         </div>
+                    </div>
+
+               <!-- Modify pwd Modal -->
+                <div id="modifypwd_modal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <p>修改密碼</p>
+                            </div>
+                            <div class="modal-body">
+
+                                    <form class="form-horizontal" action="/main/member/update_pwd/" method="post">
+                                        {% csrf_token %}
+                                        <div id="updatealert" style="display: {{msg_status}};" class="alert alert-danger">
+                                                <p >{{msg}}</p>
+                                                <span></span>
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="newpwd" class="col-md-3 control-label">新密碼</label>
+                                                <div class="col-md-9">
+                                                    <input type="password" class="form-control" name="newpwd" placeholder="Password">
+                                                </div>
+                                        </div>
+                                            <div class="form-group">
+                                                    <label for="confirm_newpwd" class="col-md-3 control-label">確認新密碼</label>
+                                                    <div class="col-md-9">
+                                                        <input type="password" class="form-control" name="confirm_newpwd" placeholder="Confirm Password">
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <!-- Button -->            
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                        <input style="width: 100%;font-weight: bold;" id="btn-signup" type="submit" class="btn btn-info" value="確定修改">
+                                                    </div>
+                                                </div>
+                                    </form>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                            </div>
+                        </div>
+                    
+                        </div>
+                    </div>
+               
+                
+         </div> 
+    </div>
+
+{% endblock %}

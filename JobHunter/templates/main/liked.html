@@ -1,0 +1,282 @@
+{% extends 'main/index.html' %}
+{% load static %}
+
+
+{% block title %}我的最愛{% endblock %}
+
+{% block static_content %} 
+<link rel="stylesheet" type="text/css" href="{% static '/css/jobs-filters.css' %}">
+
+<style type="text/css">
+    
+    .detail_des {
+        font-weight: bold;
+    }
+
+</style>
+{% endblock %}
+
+{% block body_content %} 
+
+<div style="margin-top: 50px;" class="container">
+        <div class="row">
+            
+            
+            <div class="col-md-12">
+            <h4>最愛工作</h4>
+    
+            <div class="jobs">
+    
+                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                    
+                  <table style="text-align: center;" id="mytable" class="table table-bordred table-striped">
+                       
+                       <thead><tr class="filters">
+                       
+                       <th width="2%"><input type="checkbox" id="checkall" /></th>
+                       <th width="15%"><input type="text" class="form-control" placeholder="公司名稱" disabled></th>
+                        <th width="15%"><input type="text" class="form-control" placeholder="職稱" disabled></th>
+                         <th width="40%"><input type="text" class="form-control" placeholder="工作內容" disabled></th>
+                         <th width="9%"><input type="text" class="form-control" placeholder="薪資" disabled></th>
+                         <th width="15%"><input type="text" class="form-control" placeholder="聯絡資訊" disabled></th>
+                          <th width="2%"></th>
+                           <th width="2%"></th>
+                       </tr></thead>
+        <tbody>
+    
+            {{likelist_null|safe}}
+
+        {% for post in posts %}
+    
+              <tr id="{{post.postid}}">
+                <td><input type="checkbox" class="checkthis" /></td>
+                <td>{{post.comTitle}}</td>
+                <td>{{post.title}}</td>
+                <td>{{post.detail}}</td>
+                <td>{{post.min_salary}}</td>
+                <td>{{post.contact}}</td>
+                <td><p data-placement="top" data-toggle="tooltip" title="更多資訊"><button class="btn btn-primary btn-xs moreinformation" data-title="MoreInfomation" data-toggle="modal" data-target="#moreinformation_modal" value="{{post.postid}}"><span class="glyphicon glyphicon-option-horizontal"></span></button></p></td>
+                {% if currentUser == 'student' %}
+                <td><p data-placement="top" data-toggle="tooltip" title="移除最愛"><button class="btn btn-danger btn-xs remove" data-title="Remove" data-toggle="modal" data-target="#remove_modal" value="{{post.postid}}"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                {% endif %}
+              </tr>
+    
+        {% endfor %}
+        
+    
+        </tbody>
+            
+    </table>
+    <div class="clearfix"></div>
+    
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- remove Modal -->
+    <div id="remove_modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+                <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+              <h4 class="modal-title custom_align" id="Heading">從最愛中移除</h4>
+            </div>
+                <div class="modal-body">
+             
+             <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 你真的要移除這筆資料？</div>
+             
+            </div>
+              <div class="modal-footer ">
+              <button id="remove_yes" type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> 移除</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+              </div>
+    
+      </div>
+    </div>
+    
+    <!-- MoreInformation Modal -->
+    <div id="moreinformation_modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+           <div class="modal-header">
+                <h4>詳細資料</h4>
+           </div>
+          <div class="modal-body">
+            
+            <ul class="list-inline">
+              <li class="detail_des">公司名稱</li>
+              <li id="companytitle"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">發布日期</li>
+              <li id="post_date"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">工作種類</li>
+              <li id="jobtype"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">工作名稱</li>
+              <li id="title"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">工作細節</li>
+              <li id="detail"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">工作要求</li>
+              <li id="condition"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">工作福利</li>
+              <li id="benefit"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">聯絡方式</li>
+              <li id="contact"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">薪資</li>
+              <li id="min_salary"></li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">已經有</li>
+              <li id="viewed"></li>
+              <li>人看過</li>
+            </ul>
+    
+            <ul class="list-inline">
+              <li class="detail_des">已經有</li>
+              <li id="like"></li>
+              <li>人喜歡</li>
+            </ul>
+    
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+    
+        <script type="text/javascript">
+            
+            $(document).ready(function(){
+                $.ajaxSetup({
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+                });
+                $('.jobs .btn-filter').click(function(){
+                    var $panel = $(this).parents('.jobs'),
+                    $filters = $panel.find('.filters input[type=text]'),
+                    $tbody = $panel.find('.table tbody');
+                    if ($filters.prop('disabled') == true) {
+                        $filters.prop('disabled', false);
+                        $filters.first().focus();
+                    } else {
+                        $filters.val('').prop('disabled', true);
+                        $tbody.find('.no-result').remove();
+                        $tbody.find('tr').show();
+                    }
+                });
+                $('.jobs .filters input[type=text]').keyup(function(e){
+                    /* Ignore tab key */
+                    var code = e.keyCode || e.which;
+                    if (code == '9') return;
+                    /* Useful DOM data and selectors */
+                    var $input = $(this),
+                    inputContent = $input.val().toLowerCase(),
+                    $panel = $input.parents('.jobs'),
+                    column = $panel.find('.filters th').index($input.parents('th')),
+                    $table = $panel.find('.table'),
+                    $rows = $table.find('tbody tr');
+                    /* Dirtiest filter function ever ;) */
+                    var $filteredRows = $rows.filter(function(){
+                        var value = $(this).find('td').eq(column).text().toLowerCase();
+                        return value.indexOf(inputContent) === -1;
+                    });
+                    /* Clean previous no-result if exist */
+                    $table.find('tbody .no-result').remove();
+                    /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+                    $rows.show();
+                    $filteredRows.hide();
+                    /* Prepend no-result row if all rows are filtered */
+                    if ($filteredRows.length === $rows.length) {
+                        $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">找不到結果，請重新篩選。</td></tr>'));
+                    }
+                });
+                $("#mytable #checkall").click(function () {
+                    if ($("#mytable #checkall").is(':checked')) {
+                        $("#mytable input[type=checkbox]").each(function () {
+                            $(this).prop("checked", true);
+                        });
+    
+                    } else {
+                        $("#mytable input[type=checkbox]").each(function () {
+                            $(this).prop("checked", false);
+                        });
+                    }
+                });
+
+                $('.remove').click(function() {
+                    $('#remove_yes').val($(this).val());
+                });
+
+                $('#remove_yes').click(function() {
+                    var postid = $(this).val();
+                    var postid_id = '#'+postid
+                    $.post("/main/dislike/",{'postid':postid}, function(ret) {
+                        if (ret.dislike_status==true) {
+                            $(postid_id).remove();
+                            $('#remove_modal').modal('toggle');
+                            if ($('#mytable').find('tbody tr').length === 0) {
+                                $('#mytable').find('tbody').prepend($('<tr class="no-result text-center"><td colspan="8">現在還沒有最愛的工作喔！</td></tr>'));
+                            }
+                        }
+                    });
+
+                });
+                
+
+                $('.moreinformation').click(function() {
+                    var postid = $(this).val();
+                    $.post("/main/jobs/1/",{'postid':postid}, function(ret){
+                        $('#companytitle').text(ret.companytitle)
+                        $('#post_date').text(ret.post_date)
+                        $('#jobtype').text(ret.jobtype)
+                        $('#title').text(ret.title)
+                        $('#detail').text(ret.detail)
+                        $('#condition').text(ret.condition)
+                        $('#benefit').text(ret.benefit)
+                        $('#contact').text(ret.contact)
+                        $('#min_salary').text(ret.min_salary)
+                        $('#viewed').text(ret.viewed)
+                        $('#like').text(ret.like)
+                        
+                    });
+                });
+                $("[data-toggle=tooltip]").tooltip();
+    
+            });
+    
+        </script>
+{% endblock %}

@@ -9,95 +9,99 @@
 <li><a href="/login/member/">會員登入</a></li>
 {% endblock %}
 
+{% block static_content %} 
+
+
+{% endblock %}
+
 {% block body_content %} 
 
 <section class="single-page-title single-page-title-hunting">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2><b>HUNTING</b></h2>
+                <h2><b>Job Hunter 工作獵人</b></h2>
             </div>
         </div>
     </div>
 </section>
-<section class="section-content-left-icon">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="left-icon-wraper">
-                    <div class="icon">
-                        <i><img src="{% static 'imgs/cms.png' %}" alt=""></i>
-                    </div>
-                    <div class="content">
-                    <h2>軟體工程師</h2>
-                    <p><li><a href="#">xxx公司</a></li></p>
-                    <p><li><a href="#">yyy公司</a></li></p>
-                    <p><li><a href="#">zzz公司</a></li></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="left-icon-wraper">
-                <div class="icon"><i><img src="{% static 'imgs/shield.png' %}" alt=""></i></div>
-                <div class="content">
-                    <h2>資料安全工程師</h2>
-                    <p><li><a href="#">xxx公司</a></li></p>
-                    <p><li><a href="#">yyy公司</a></li></p>
-                    <p><li><a href="#">zzz公司</a></li></p>
-                </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="left-icon-wraper">
-                <div class="icon"><i> <img src="{% static 'imgs/folded-newspaper.png' %}" alt=""></i></div>
-                <div class="content">
-                     <h2>資料工程師</h2>
-                    <p><li><a href="#">xxx公司</a></li></p>
-                    <p><li><a href="#">yyy公司</a></li></p>
-                    <p><li><a href="#">zzz公司</a></li></p>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="left-icon-wraper">
-                <div class="icon"><i> <img src="{% static 'imgs/icon.png' %}" alt=""></i></div>
-                 <div class="content">
-                     <h2>IC設計工程師</h2>
-                    <p><li><a href="#">xxx公司</a></li></p>
-                    <p><li><a href="#">yyy公司</a></li></p>
-                    <p><li><a href="#">zzz公司</a></li></p>
-                 </div>
-                    
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="left-icon-wraper">
-                <div class="icon"><i> <img src="{% static 'imgs/website.png' %}" alt=""></i></div>
-                 <div class="content">
-                     <h2>資料科學家</h2>
-                    <p><li><a href="#">xxx公司</a></li></p>
-                    <p><li><a href="#">yyy公司</a></li></p>
-                    <p><li><a href="#">zzz公司</a></li></p>
-                 </div> 
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="left-icon-wraper">
-                <div class="icon"><i> <img src="{% static 'imgs/conversation.png' %}" alt=""></i></div>
-                <div class="content">
-                    <p><li><a href="#">xxx公司</a></li></p>
-                    <p><li><a href="#">yyy公司</a></li></p>
-                    <p><li><a href="#">zzz公司</a></li></p>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 
+<div class="jumbotron">
+        <div class="container text-center">
+             <h1 class="page-header">工作機會多 更新速度快 值得您信賴</h1>
+        <p class="lead">愛你所選 擇你所愛</p>
+        </div>
+	   
+	</div>
+	
+	<div class="container ">
+	    <div class="row">
+	      
+	        <div class="col-md-4 well pricing-table">
+	            <div class="pricing-table-holder">
+	                <center>
+	                    <img src="{% static '/imgs/rank-1.png' %}" style="height: 100px;width: 100px;" class="img-responsive img-circle" alt="">
+                        <h3>{{job_like_rank.title.0}}</h3>
+                        <p class="caption">
+                            最愛人數：{{job_like_rank.like.0}}
+                        </p>
+	                </center>
+	            </div>
+	            
+	            <div class="pricing-feature-list">
+	                <ul class="list-group">
+                        {% for companytitle in first_title_list %}
+                            <li class="list-group-item">{{companytitle}}</li>
+                        {% endfor %}
+                    </ul>
+	            </div>
+	            
+	        </div>
+	              <div class="col-md-4 well pricing-table">
+	            <div class="pricing-table-holder">
+	                <center>
+	                    <img src="{% static '/imgs/rank-2.png' %}" style="height: 100px;width: 100px;" class="img-responsive img-circle" alt="">
+	                    <h3>{{job_like_rank.title.1}}</h3>
+	                    <p class="caption">
+                                最愛人數：{{job_like_rank.like.1}}
+	                    </p>
+	                </center>
+	                
+	            </div>
+	            
+	            <div class="pricing-feature-list">
+	                <ul class="list-group">
+                        {% for companytitle in second_title_list %}
+                            <li class="list-group-item">{{companytitle}}</li>
+                        {% endfor %}
+                    </ul>
+	            </div>
+	        </div>
+	              <div class="col-md-4 well pricing-table">
+	            <div class="pricing-table-holder">
+	                <center>
+	                    <img src="{% static '/imgs/rank-3.png' %}" style="height: 100px;width: 100px;" class="img-responsive img-circle" alt="">
+	                    <h3>{{job_like_rank.title.2}}</h3>
+	                    <p class="caption">
+                                最愛人數：{{job_like_rank.like.2}}
+	                    </p>
+	                </center>
+	                
+
+                  
+	            </div>
+	            
+	            
+	            <div class="pricing-feature-list">
+	                <ul class="list-group">
+                        {% for companytitle in third_title_list %}
+                            <li class="list-group-item">{{companytitle}}</li>
+                        {% endfor %}
+                    </ul>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 <footer class="footer">
     <div class="footer-widget-section">
         <div class="container">

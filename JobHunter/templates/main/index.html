@@ -10,11 +10,58 @@
     <link href="{% static 'css/mobile-menu.css' %}" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">    
     <link href="{% static 'fonts/flaticon/flaticon.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    
+    <!-- JS 引入 -->
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/smoothscroll.js' %}"></script>
+    <script src="{% static 'js/mobile-menu.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <style type="text/css">
+        body {
+
+            padding-top: 50px;
+            position: relative;
+        }
+    </style>
+
+    <script type="text/javascript">
+        
+        $(document).ready(function() {
+
+            // Put your offset checking in a function
+            function checkOffset() {
+                if ($(".nav").offset().top > 50) {
+                    $(".navbar-fixed-top").addClass("top-nav-collapse");
+                }     
+                else {
+                    $(".navbar-fixed-top").removeClass("top-nav-collapse");
+                }
+            }
+
+            // Run it when the page loads
+            checkOffset();
+
+
+            // Run function when scrolling
+            $(window).scroll(function() {
+                checkOffset();
+            });
+        });
+    </script>
+
+    {% block static_content %} {% endblock %}
+
+
 </head>
-<body>
+
+<body data-target="#navbar-spy" data-spy="scroll" >
 
 <!-- JS特效 -->
 <div id="main-wrapper">
@@ -30,21 +77,42 @@
 <!-- 網頁內容開始 -->
 
     <!-- 上排選單 -->
-<nav class="navbar m-menu navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/main/"><img src="{% static 'imgs/logo.png' %}" alt=""></a>
+    <nav class="nav m-menu navbar-inverse navbar-fixed-top" id="navbar-spy">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/main/">Job Hunter</a>
+            </div>
+            <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right main-nav">
+                    <li><a href="/main/">HOME</a></li>
+                    {% if currentUser == 'student' %}
+
+                    <li><a href="/main/member/">{{id}}</a></li>
+                    <li><a href="/main/liked/">我的最愛</a></li>
+
+                    {% elif currentUser == 'entrepreneur' %}
+
+                    <li><a href="/main/company/">{{id}}</a></li>
+                    <li><a href="/main/post/">新增職缺</a></li>
+
+                    {% else %}
+
+                    <li><a href="/login/company/">企業登入</a></li>
+                    <li><a href="/login/member/">會員登入</a></li>
+
+                    {% endif %}
+                    <li><a href="/main/jobs/">更多工作</a></li>              
+                    <li><a href="/main/about/">關於我們</a></li> 
+                    
+                    {% if currentUser == 'student' or currentUser == 'entrepreneur' %}
+
+                    <li><a href="/main/logout/">登出</a></li>
+
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="#navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right main-nav">
-                <li><a href="/main/">HOME</a></li>
-                {% block login_status %} {% endblock %}
-                <li><a href="/main/jobs/">更多工作</a></li>              
-                <li><a href="/main/about/">關於我們</a></li>  
-            </ul>
-        </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- 網頁主要內容開始 -->
 
@@ -72,17 +140,7 @@
     </div>
 </footer>
 
-
 <!-- 網頁內容結束 -->
-
-<!-- JS 引入 -->
-<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-        crossorigin="anonymous"></script>
-<script src="{% static 'js/smoothscroll.js' %}"></script>
-<script src="{% static 'js/mobile-menu.js' %}"></script>
-<script src="{% static 'js/scripts.js' %}"></script>
 
 </body>
 </html>

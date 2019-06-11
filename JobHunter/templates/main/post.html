@@ -1,0 +1,52 @@
+{% extends 'main/index.html' %}
+{% load static %}
+
+
+{% block title %}新增職缺{% endblock %}
+
+
+{% block body_content %} 
+
+<div style="margin-top: 50px;margin-bottom: 50px;" class="container">
+        <h2>新增職缺</h2><br><br>
+        <div class="row">
+                <form id="postform" action="/main/post/action/" method="POST">
+                    <div class="form-group">
+                        <label for="companytitle">公司名稱:</label>
+                        <input type="text" class="form-control" id="companytitle" name="companytitle" disabled="disabled" value="{{companytitle}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="jobtype">工作種類:</label>
+                        <input type="text" class="form-control" id="jobtype" name="jobtype" placeholder="工作種類">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">工作名稱:</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="工作名稱">
+                    </div>
+                    <div class="form-group">
+                        <label for="detail">工作細節:</label>
+                        <textarea class="form-control rounded-0" name="detail" form="postform"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="detail">工作要求:</label>
+                        <textarea class="form-control rounded-0" name="condition" form="postform"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="detail">工作福利:</label>
+                        <textarea class="form-control rounded-0" name="benefit" form="postform"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="detail">聯絡方式:</label>
+                        <input type="text" class="form-control" id="contact" name="contact" placeholder="聯絡方式">
+                    </div>
+                    <div class="form-group">
+                        <label for="detail">薪資:</label>
+                        <input type="text" class="form-control" id="min_salary" name="min_salary" placeholder="薪資">
+                    </div>
+                    <input style="width: 100%;font-weight: bold;" id="btn-post" type="submit" class="btn btn-info" value="送出">
+                                    
+                  </form>
+        </div>
+
+</div>
+{% endblock %}

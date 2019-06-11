@@ -12,7 +12,7 @@
 <div class="container"> 
         <div id="signupbox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
                     <div class="well">
-                        親愛的企業您好，請在務必於下方留下您的公司聯絡人之Email及連絡電話，基本設定完成後，會後專人聯絡您，並為您做後續企業帳號開通。
+                        親愛的企業您好，請在務必於下方留下您的公司聯絡人之Email及連絡電話，基本設定完成後，會後專人聯絡您，並為您做後續企業帳號設定。
                     </div>
                     
                     <div class="panel panel-info">
@@ -22,7 +22,7 @@
                         </div>  
 
                         <div class="panel-body" >
-                            <form id="signupform" class="form-horizontal" role="form" action="/signup/company/" method="POST">
+                            <form id="signupform" class="form-horizontal" role="form" action="/signup/company/action/" method="POST">
                                 {% csrf_token %}
                                 <div id="signupalert" style="display:none;" class="alert alert-danger">
                                     <p>Error:</p>
@@ -49,6 +49,34 @@
                                         <input type="text" class="form-control" name="managername" placeholder="Name">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="managername" class="col-md-3 control-label">公司名稱</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="title" placeholder="Company Name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="managername" class="col-md-3 control-label">公司電話</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="phone" placeholder="Company Phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="managername" class="col-md-3 control-label">公司地址</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="address" placeholder="Company Address">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="managername" class="col-md-3 control-label">公司介紹</label>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control rounded-0" name="intro" form="signupform"></textarea>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">密碼</label>
                                     <div class="col-md-9">
@@ -72,7 +100,7 @@
                                     </div>
                                 </div>
                                 
-                                
+                                 <div><h3 style="color: red;">{{ msg }}</h3></div>
                                 
                             </form>
                          </div>
