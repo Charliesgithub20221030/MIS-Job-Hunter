@@ -1,3 +1,4 @@
 black
 django<2.3
+django-bootstrap3
 pylint
