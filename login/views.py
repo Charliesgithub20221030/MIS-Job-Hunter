@@ -5,38 +5,25 @@ from django.http import HttpResponseRedirect
 
 # 會員登入 login_action、redirect to main if member exist
 def member_login(request):
-    if (
-        request.user.is_authenticated
-        and request.session.get("as", None) == "student"
-    ):
-        return HttpResponseRedirect("/main/member/")
-    elif (
-        request.user.is_authenticated
-        and request.session.get("as", None) == "entrepreneur"
-    ):
-        return HttpResponseRedirect("/main/company/")
-    else:
-        return render(request, "login/memberlogin.html")
+    if request.user.is_authenticated:
+        if request.session.get("as") == "student":
+            return HttpResponseRedirect("/main/member/")
+        if request.session.get("as") == "entrepreneur":
+            return HttpResponseRedirect("/main/company/")
+    return render(request, "login/memberlogin.html")
 
 
 def company_login(request):
-    if (
-        request.user.is_authenticated
-        and request.session.get("as", None) == "entrepreneur"
-    ):
-        return HttpResponseRedirect("/main/company/")
-    elif (
-        request.user.is_authenticated
-        and request.session.get("as", None) == "student"
-    ):
-        return HttpResponseRedirect("/main/member/")
-    else:
-        return render(request, "login/companylogin.html")
+    if request.user.is_authenticated:
+        if request.session.get("as") == "entrepreneur":
+            return HttpResponseRedirect("/main/company/")
+        if request.session.get("as") == "student":
+            return HttpResponseRedirect("/main/member/")
+    return render(request, "login/companylogin.html")
 
 
 # 登入行為檢查
 def member_login_action(request):
-    content = {}
     if request.method == "POST":
         uid = request.POST.get("id")
         pwd = request.POST.get("pwd")
@@ -47,28 +34,22 @@ def member_login_action(request):
                 request.session["user"] = uid
                 request.session["as"] = "student"
                 return HttpResponseRedirect("/main/")
-            else:
-                return render(
-                    request,
-                    "login/memberlogin.html",
-                    {"msg": "User has no permission to log in"},
-                )
-        else:
             return render(
                 request,
                 "login/memberlogin.html",
-                {"msg": "username or password error"},
+                {"msg": "User has no permission to log in"},
             )
-    else:
         return render(
             request,
             "login/memberlogin.html",
-            {"msg": "not a valid login method"},
+            {"msg": "username or password error"},
         )
+    return render(
+        request, "login/memberlogin.html", {"msg": "not a valid login method"}
+    )
 
 
 def company_login_action(request):
-    content = {}
     if request.method == "POST":
         uid = request.POST.get("id")
         pwd = request.POST.get("pwd")
@@ -79,22 +60,16 @@ def company_login_action(request):
                 request.session["user"] = uid
                 request.session["as"] = "entrepreneur"
                 return HttpResponseRedirect("/main/")
-            else:
-                return render(
-                    request,
-                    "login/companylogin.html",
-                    {"msg": "User has no permission user to log in"},
-                )
-        else:
             return render(
                 request,
                 "login/companylogin.html",
-                {"msg": "username or password error"},
+                {"msg": "User has no permission user to log in"},
             )
-    else:
         return render(
             request,
             "login/companylogin.html",
-            {"msg": "not a valid login method"},
+            {"msg": "username or password error"},
         )
-
+    return render(
+        request, "login/companylogin.html", {"msg": "not a valid login method"}
+    )

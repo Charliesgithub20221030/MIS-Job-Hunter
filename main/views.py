@@ -1,31 +1,26 @@
-from django.shortcuts import render, render_to_response
-from django.template import loader
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db.models import Sum
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
+
 from main.models import (
-    Post,
     EntrepreneurContent,
-    StudentContent,
     LikeList,
+    Post,
+    StudentContent,
     ViewList,
 )
-from django.contrib.auth.models import User
-from django.contrib import auth
-import json
-from django.core.validators import validate_email
-from django.db.models import Sum
 
 
-""" 以後新建新的view都用這個
-
-def CustomFunction(request):
+def custom_func(request):
+    """ 以後新建新的view都用這個"""
     content = {}
-    content['currentUser'] = request.session.get('as',None)
-    content['id'] = request.session.get('user',None)
+    content["currentUser"] = request.session.get("as", None)
+    content["id"] = request.session.get("user", None)
 
-    return render(request,'main/',content)
-
-"""
+    return render(request, "main/", content)
 
 
 def index(request):
@@ -137,9 +132,6 @@ def jobs(request, page=1):  #
 
         return JsonResponse(post_content)
 
-    # 需要事先取得最大頁數
-    max_page = 99
-
     content["page"] = page
     content["pagehtml"] = ""
 
@@ -224,31 +216,29 @@ def member(request):
 
 
 @login_required
-def company(request):
+def company_view(request):
     if request.session.get("as", None) != "entrepreneur":
         return HttpResponseRedirect("/login/company/")
-    else:
-        uid = request.session.get("user", None)
-        user = User.objects.get(username=uid)
-        posts = Post.objects.filter(entrepreneur=user)
-        info = EntrepreneurContent.objects.get(entrepreneur=user)
-        content = {}
-        content["currentUser"] = request.session.get("as", None)
-        content["id"] = request.session.get("user", None)
-        content["company_detail"] = {
-            "id": user.username,
-            "companytitle": info.companytitle,
-            "email": user.email,
-            "lastname": user.last_name,
-            "firstname": user.first_name,
-            "title": info.companytitle,
-            "phone": info.phone,
-            "address": info.address,
-            "intro": info.introduction,
-        }
-        content["msg_status"] = "none"
+    uid = request.session.get("user", None)
+    user = User.objects.get(username=uid)
+    info = EntrepreneurContent.objects.get(entrepreneur=user)
+    content = {}
+    content["currentUser"] = request.session.get("as", None)
+    content["id"] = request.session.get("user", None)
+    content["company_detail"] = {
+        "id": user.username,
+        "companytitle": info.companytitle,
+        "email": user.email,
+        "lastname": user.last_name,
+        "firstname": user.first_name,
+        "title": info.companytitle,
+        "phone": info.phone,
+        "address": info.address,
+        "intro": info.introduction,
+    }
+    content["msg_status"] = "none"
 
-        return render(request, "main/company.html", content)
+    return render(request, "main/company.html", content)
 
 
 @login_required
@@ -265,8 +255,7 @@ def like(request, postid):
         current_post.like += 1
         current_post.save()
         return JsonResponse({"likestatus": True})
-    else:
-        return JsonResponse({"likestatus": False})
+    return JsonResponse({"likestatus": False})
 
 
 @login_required
@@ -299,7 +288,6 @@ def post_action(request):
         uid = request.session.get("user", None)
         company = User.objects.get(username=uid)
         num_of_post = len(Post.objects.all())
-        companytitle = request.POST.get("companytitle")
         jobtype = request.POST.get("jobtype")
         title = request.POST.get("title")
         detail = request.POST.get("detail")
@@ -320,9 +308,7 @@ def post_action(request):
             viewed=0,
             like=0,
         )
-        return HttpResponseRedirect("/main/")
-    else:
-        return HttpResponseRedirect("/main/")
+    return HttpResponseRedirect("/main/")
 
 
 @login_required
@@ -350,8 +336,9 @@ def member_update(request):
 
 
 def company_update(request):
-    if (request.session.get("user", None) is not None) and (
-        request.session.get("as", None) == "entrepreneur"
+    if (
+        request.session.get("user")
+        and request.session.get("as") == "entrepreneur"
     ):
         uid = request.session.get("user", None)
         company = User.objects.get(username=uid)
@@ -482,4 +469,3 @@ def sort_by_value(d):
     backitems = [[v[1], v[0]] for v in items]
     backitems.sort(reverse=True)
     return [backitems[i][1] for i in range(0, len(backitems))]
-

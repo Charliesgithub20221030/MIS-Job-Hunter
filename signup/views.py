@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
-from main.models import EntrepreneurContent, StudentContent
 
 
 def member_signup(request):  # name studentId email pwd
@@ -40,30 +39,21 @@ def member_signup_action(request):
     email = request.POST.get("email")
     lastn = request.POST.get("lastname")
     firstn = request.POST.get("firstname")
-    mis_id = request.POST.get("mis_id")
-    resume = request.POST.get("resume")
     pwd = request.POST.get("pwd")
     cpwd = request.POST.get("confirm-pwd")
     if User.objects.filter(username=uid).exists():
         return render(request, "signup/membersignup.html", {"msg": "帳號已經被使用"})
-    elif pwd != cpwd:
+    if pwd != cpwd:
         return render(request, "signup/membersignup.html", {"msg": "密碼確認錯誤"})
-    else:
-        group = Group.objects.get(name="student")
-        User.objects.create(
-            username=uid, email=email, first_name=firstn, last_name=lastn
-        )
-        user = User.objects.get(username=uid)
-        user.set_password(pwd)
-        user.save()
-        group.user_set.add(user)
-
-        stu = StudentContent.objects.create(
-            student=user, resume=resume, mis_id=mis_id
-        )
-        return HttpResponseRedirect("/login/member/")
-
-    pass
+    group = Group.objects.get(name="student")
+    User.objects.create(
+        username=uid, email=email, first_name=firstn, last_name=lastn
+    )
+    user = User.objects.get(username=uid)
+    user.set_password(pwd)
+    user.save()
+    group.user_set.add(user)
+    return HttpResponseRedirect("/login/member/")
 
 
 def company_signup_action(request):
@@ -72,34 +62,19 @@ def company_signup_action(request):
     name = request.POST.get("managername")
     lastn = name[0]
     firstn = name.replace(lastn, "")
-    title = request.POST.get("title")
-    phone = request.POST.get("phone")
-    address = request.POST.get("address")
-    intro = request.POST.get("intro")
     pwd = request.POST.get("pwd")
     cpwd = request.POST.get("confirm-pwd")
     if User.objects.filter(username=uid).exists():
         return render(request, "signup/membersignup.html", {"msg": "帳號已經被使用"})
-    elif pwd != cpwd:
+    if pwd != cpwd:
         return render(request, "signup/membersignup.html", {"msg": "密碼確認錯誤"})
-    else:
-        # user content
-        group = Group.objects.get(name="entrepreneur")
-        User.objects.create(
-            username=uid, email=email, first_name=firstn, last_name=lastn
-        )
-        user = User.objects.get(username=uid)
-        user.set_password(pwd)
-        user.save()
-        group.user_set.add(user)
-        # entrepreneur_content
-        entre = EntrepreneurContent.objects.create(
-            entrepreneur=user,
-            companytitle=title,
-            phone=phone,
-            address=address,
-            introduction=intro,
-        )
-
-        return HttpResponseRedirect("/login/company/")
-
+    # user content
+    group = Group.objects.get(name="entrepreneur")
+    User.objects.create(
+        username=uid, email=email, first_name=firstn, last_name=lastn
+    )
+    user = User.objects.get(username=uid)
+    user.set_password(pwd)
+    user.save()
+    group.user_set.add(user)
+    return HttpResponseRedirect("/login/company/")

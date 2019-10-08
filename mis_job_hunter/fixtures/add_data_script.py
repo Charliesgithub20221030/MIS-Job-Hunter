@@ -1,4 +1,10 @@
-nameList = [
+"""資料載入腳本"""
+from django.contrib.auth.models import Group, Permission, User
+from django.contrib.contenttypes.models import ContentType
+
+from main.models import EntrepreneurContent, LikeList, Post, StudentContent
+
+NAME_LIST = [
     "Oliver",
     "Jake",
     "Noah",
@@ -692,35 +698,26 @@ nameList = [
     "Alvan",
     "Tracey",
 ]
-nameList = list(set(nameList))
-addressList = ["臺南市玉井區竹圍里大成路３５１號", "臺北市大安區愛國東路31號5樓 ", "臺北市忠孝東路一段１１２號１２樓"]
-
-
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User, Group, Permission
-from main.models import StudentContent, EntrepreneurContent, Post, QA, LikeList
-
-
-## generate group and permission
-
+NAME_LIST = list(set(NAME_LIST))
+ADDRESS_LIST = ["臺南市玉井區竹圍里大成路３５１號", "臺北市大安區愛國東路31號5樓 ", "臺北市忠孝東路一段１１２號１２樓"]
 
 # create perission
-ct = ContentType.objects.get_for_model(User)
-per_stu = Permission.objects.create(
-    codename="can_apply", name="Can apply for job", content_type=ct
+CT = ContentType.objects.get_for_model(User)
+PER_STU = Permission.objects.create(
+    codename="can_apply", name="Can apply for job", content_type=CT
 )
-per_ent = Permission.objects.create(
-    codename="can_post", name="Can post job", content_type=ct
+PER_ENT = Permission.objects.create(
+    codename="can_post", name="Can post job", content_type=CT
 )
 # create group and add permissions to groups
 Group.objects.create(name="student")
 Group.objects.create(name="entrepreneur")
 
-stu_group = Group.objects.get(name="student")
-ent_group = Group.objects.get(name="entrepreneur")
+STU_GROUP = Group.objects.get(name="student")
+ENT_GROUP = Group.objects.get(name="entrepreneur")
 
-stu_group.permissions.add(per_stu)
-ent_group.permissions.add(per_ent)
+STU_GROUP.permissions.add(PER_STU)
+ENT_GROUP.permissions.add(PER_ENT)
 
 
 # stu_group.user_set.add()#add User object
@@ -728,8 +725,8 @@ ent_group.permissions.add(per_ent)
 
 
 ## generate user
-pid = 1
-for i, name in enumerate(nameList):
+PID = 1
+for i, name in enumerate(NAME_LIST):
     if i % 4 == 0:
         ln = "Lin"
         year = "1992"
@@ -755,7 +752,7 @@ for i, name in enumerate(nameList):
     user.set_password(name)
     user.save()
     if i % 5 == 0:
-        ad = addressList[(i % 3)]
+        ad = ADDRESS_LIST[(i % 3)]
         if i % 4 == 0:
             ti = "品管工程師"
         elif i % 4 == 1:
@@ -765,21 +762,21 @@ for i, name in enumerate(nameList):
         else:
             ti = "軟體測試工程師"
 
-        ent_group.user_set.add(user)
+        ENT_GROUP.user_set.add(user)
         EntrepreneurContent.objects.create(
             entrepreneur=user,
-            companytitle=nameList[i%200]+"有限公司",
+            companytitle=NAME_LIST[i % 200] + "有限公司",
             introduction="""
 		創見資訊成立於1988年，總部設於台灣，由董事長束崇萬先生一手創立，\n
 		如今已成為為全球消費性電子與工業用產品領導廠商，擁有專業的研發、\n
 		生產、業務與行銷團隊，在全球共擁有13個據點。在創見，我們秉持高\n
 		品質的產品理念，並以客戶為中心，提供最專業的客戶服務，面對日益\n
 		變化的市場需求，創見有能力迅速做出反應，滿足各式各樣的消費需求。""",
-            address=addressList[(i % 3)],
+            address=ADDRESS_LIST[(i % 3)],
             phone="09" + str((11111111 * i) % 10000000000),
         )
         Post.objects.create(
-            postid=pid,
+            postid=PID,
             entrepreneur=user,
             jobtype="internship",
             title=ti,
@@ -837,10 +834,10 @@ for i, name in enumerate(nameList):
             viewed=0,
             like=0,
         )
-        pid += 1
+        PID += 1
 
     else:
-        stu_group.user_set.add(user)
+        STU_GROUP.user_set.add(user)
         StudentContent.objects.create(
             student=user,
             mis_id=(
@@ -891,27 +888,22 @@ for i, name in enumerate(nameList):
 
 #### QA 自己加入
 
-## LikeList
-from main.models import LikeList
 
-s = User.objects.filter(
+S = User.objects.filter(
     username__contains="c", groups=Group.objects.get(name="student")
 )
-p_all = Post.objects.all()
+P_ALL = Post.objects.all()
 
-for i, stu in enumerate(s):
-    p = p_all[i % 31]
+for i, stu in enumerate(S):
+    p = P_ALL[i % 31]
     LikeList.objects.create(student=stu, post=p)
 
 
-## add the number of like to post
-from main.models import LikeList, Post
-
-like = LikeList.objects.all()
-postInLike = set()
-for l in like:
-    postInLike.add(l.post)
-for postL in postInLike:
+LIKE = LikeList.objects.all()
+POST_IN_LIKE = set()
+for l in LIKE:
+    POST_IN_LIKE.add(l.post)
+for postL in POST_IN_LIKE:
     numOfLike = len(LikeList.objects.filter(post=postL))
     # print(postL.entrepreneur,numOfLike)
     postL.like = numOfLike
@@ -919,4 +911,3 @@ for postL in postInLike:
 
 
 print("done")
-
