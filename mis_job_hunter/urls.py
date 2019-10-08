@@ -1,4 +1,4 @@
-"""JobHunter URL Configuration
+"""mis_job_hunter URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -22,6 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index),
     path("main/", include("main.urls")),
-    path("signup/", include("signup.urls")),
+    path("sign_up/", include("sign_up.urls")),
     path("login/", include("login.urls")),
 ]

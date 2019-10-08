@@ -1,7 +1,15 @@
 from django.contrib import admin
-from main.models import Post, Entrepreneur_content, Student_content, QA, LikeList,ViewList
-from django.contrib.auth.models import User, Group, Permission
-from django.contrib.auth.admin import UserAdmin
+
+from main.models import (
+    QA,
+    EntrepreneurContent,
+    LikeList,
+    Post,
+    StudentContent,
+    ViewList,
+)
+
+
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         "postid",
@@ -19,11 +27,17 @@ class PostAdmin(admin.ModelAdmin):
     )
 
 
-class Entrepreneur_contentAdmin(admin.ModelAdmin):
-    list_display = ("entrepreneur","companytitle", "introduction", "address", "phone")
+class EntrepreneurContentAdmin(admin.ModelAdmin):
+    list_display = (
+        "entrepreneur",
+        "companytitle",
+        "introduction",
+        "address",
+        "phone",
+    )
 
 
-class Student_contentAdmin(admin.ModelAdmin):
+class StudentContentAdmin(admin.ModelAdmin):
     list_display = ("student", "mis_id", "resume")
 
 
@@ -42,13 +56,13 @@ class LikeListAdmin(admin.ModelAdmin):
     list_display = ("id", "post", "student")
 
 
-
 class ViewListAdmin(admin.ModelAdmin):
     list_display = ("id", "post", "student")
 
+
 admin.site.register(QA, QAAdmin)
-admin.site.register(Student_content, Student_contentAdmin)
-admin.site.register(Entrepreneur_content, Entrepreneur_contentAdmin)
+admin.site.register(StudentContent, StudentContentAdmin)
+admin.site.register(EntrepreneurContent, EntrepreneurContentAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(LikeList, LikeListAdmin)
 admin.site.register(ViewList, ViewListAdmin)

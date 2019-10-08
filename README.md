@@ -17,3 +17,7 @@
     ``` shell
     python manage.py runserver
     ```
+
+## To do
+
+* [ ] Upgrade to [django-bootstrap4](https://pypi.org/project/django-bootstrap4/)

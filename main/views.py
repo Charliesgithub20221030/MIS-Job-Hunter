@@ -1,80 +1,73 @@
-from django.shortcuts import render, render_to_response
-from django.template import loader
+import collections
+
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db.models import Sum
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
+
 from main.models import (
-    Post,
-    Entrepreneur_content,
-    Student_content,
+    EntrepreneurContent,
     LikeList,
+    Post,
+    StudentContent,
     ViewList,
 )
-from django.contrib.auth.models import User
-from django.contrib import auth
-import json
-from django.core.validators import validate_email
-from django.db.models import Sum
 
 
-""" 以後新建新的view都用這個
-
-def CustomFunction(request):
+def custom_func(request):
+    """ 以後新建新的view都用這個"""
     content = {}
-    content['currentUser'] = request.session.get('as',None)
-    content['id'] = request.session.get('user',None)
+    content["currentUser"] = request.session.get("as", None)
+    content["id"] = request.session.get("user", None)
 
-    return render(request,'main/',content)
-
-"""
+    return render(request, "main/", content)
 
 
 def index(request):
     content = {}
     content["currentUser"] = request.session.get("as", None)
     content["id"] = request.session.get("user", None)
-    titles = {}
-    titles["品管工程師"] = Post.objects.filter(title="品管工程師").aggregate(
-        Sum("like")
-    )["like__sum"]
-    titles["資安工程師"] = Post.objects.filter(title="資安工程師").aggregate(
-        Sum("like")
-    )["like__sum"]
-    titles["軟體測試工程師"] = Post.objects.filter(title="軟體測試工程師").aggregate(
-        Sum("like")
-    )["like__sum"]
-    titles["數據分析師"] = Post.objects.filter(title="數據分析師").aggregate(
-        Sum("like")
-    )["like__sum"]
+    title_like = {"品管工程師": 0, "資安工程師": 0, "軟體測試工程師": 0, "數據分析師": 0}
+    for title in title_like:
+        like_sum = Post.objects.filter(title=title).aggregate(Sum("like"))[
+            "like__sum"
+        ]
+        if like_sum:
+            title_like[title] = like_sum
 
-    titles_title = sort_by_value(titles)
-    title_value = [i for i in sorted(titles.values(), reverse=True)]
-    content["job_like_rank"] = {"title": titles_title, "like": title_value}
-    first_title = titles_title[0]
+    title_like = sorted(title_like.items(), key=lambda kv: kv[1], reverse=True)
+    first_title = title_like[0][0]
+    second_title = title_like[1][0]
+    third_title = title_like[2][0]
+
+    title_like = collections.OrderedDict(title_like)
+    content["job_like_rank"] = title_like
+
     post_list = Post.objects.filter(title=first_title)
     entrepreneur_list = list(set([ent.entrepreneur for ent in post_list]))
     content_list = []
     for ent in entrepreneur_list:
-        content_list.append(Entrepreneur_content.objects.get(entrepreneur=ent))
+        content_list.append(EntrepreneurContent.objects.get(entrepreneur=ent))
     content["first_title_list"] = [con.companytitle for con in content_list][
         :5
     ]
 
-    second_title = titles_title[1]
     post_list = Post.objects.filter(title=second_title)
     entrepreneur_list = list(set([ent.entrepreneur for ent in post_list]))
     content_list = []
     for ent in entrepreneur_list:
-        content_list.append(Entrepreneur_content.objects.get(entrepreneur=ent))
+        content_list.append(EntrepreneurContent.objects.get(entrepreneur=ent))
     content["second_title_list"] = [con.companytitle for con in content_list][
         :5
     ]
 
-    third_title = titles_title[2]
     post_list = Post.objects.filter(title=third_title)
     entrepreneur_list = list(set([ent.entrepreneur for ent in post_list]))
     content_list = []
     for ent in entrepreneur_list:
-        content_list.append(Entrepreneur_content.objects.get(entrepreneur=ent))
+        content_list.append(EntrepreneurContent.objects.get(entrepreneur=ent))
     content["third_title_list"] = [con.companytitle for con in content_list][
         :5
     ]
@@ -106,7 +99,7 @@ def jobs(request, page=1):  #
     if request.is_ajax():
         postid = request.POST.get("postid")
         post_detail = Post.objects.get(postid=postid)
-        companytitle = Entrepreneur_content.objects.get(
+        companytitle = EntrepreneurContent.objects.get(
             entrepreneur=post_detail.entrepreneur
         ).companytitle
         post_content = {
@@ -136,9 +129,6 @@ def jobs(request, page=1):  #
             current_post.save()
 
         return JsonResponse(post_content)
-
-    # 需要事先取得最大頁數
-    max_page = 99
 
     content["page"] = page
     content["pagehtml"] = ""
@@ -185,13 +175,13 @@ def jobs(request, page=1):  #
     # Get All post
     post_list = Post.objects.all().order_by("-postid")
     companytitleList = [
-        Entrepreneur_content.objects.get(
+        EntrepreneurContent.objects.get(
             entrepreneur=single.entrepreneur
         ).companytitle
         for single in post_list
     ]
-    for p, t in zip(post_list, companytitleList):
-        p.comTitle = t
+    for post_, title in zip(post_list, companytitleList):
+        post_.comTitle = title
 
     content["posts"] = post_list[page * 20 - 20 : page * 20]
 
@@ -202,53 +192,50 @@ def jobs(request, page=1):  #
 def member(request):
     if request.session.get("as", None) != "student":
         return HttpResponseRedirect("/login/member/")
-    else:
-        uid = request.session.get("user", None)
-        user = User.objects.get(username=uid)
-        info = Student_content.objects.get(student=user)
+    uid = request.session.get("user", None)
+    user = User.objects.get(username=uid)
+    info = StudentContent.objects.get(student=user)
 
-        content = {}
-        content["currentUser"] = request.session.get("as", None)
-        content["id"] = request.session.get("user", None)
-        content["user_detail"] = {
-            "username": user.username,
-            "email": user.email,
-            "lastname": user.last_name,
-            "firstname": user.first_name,
-            "ntust_id": info.mis_id,
-            "resume": info.resume,
-        }
-        content["msg_status"] = "none"
+    content = {}
+    content["currentUser"] = request.session.get("as", None)
+    content["id"] = request.session.get("user", None)
+    content["user_detail"] = {
+        "username": user.username,
+        "email": user.email,
+        "lastname": user.last_name,
+        "firstname": user.first_name,
+        "ntust_id": info.mis_id,
+        "resume": info.resume,
+    }
+    content["msg_status"] = "none"
 
-        return render(request, "main/member.html", content)
+    return render(request, "main/member.html", content)
 
 
 @login_required
-def company(request):
+def company_view(request):
     if request.session.get("as", None) != "entrepreneur":
         return HttpResponseRedirect("/login/company/")
-    else:
-        uid = request.session.get("user", None)
-        user = User.objects.get(username=uid)
-        posts = Post.objects.filter(entrepreneur=user)
-        info = Entrepreneur_content.objects.get(entrepreneur=user)
-        content = {}
-        content["currentUser"] = request.session.get("as", None)
-        content["id"] = request.session.get("user", None)
-        content["company_detail"] = {
-            "id": user.username,
-            "companytitle": info.companytitle,
-            "email": user.email,
-            "lastname": user.last_name,
-            "firstname": user.first_name,
-            "title": info.companytitle,
-            "phone": info.phone,
-            "address": info.address,
-            "intro": info.introduction,
-        }
-        content["msg_status"] = "none"
+    uid = request.session.get("user", None)
+    user = User.objects.get(username=uid)
+    info = EntrepreneurContent.objects.get(entrepreneur=user)
+    content = {}
+    content["currentUser"] = request.session.get("as", None)
+    content["id"] = request.session.get("user", None)
+    content["company_detail"] = {
+        "id": user.username,
+        "companytitle": info.companytitle,
+        "email": user.email,
+        "lastname": user.last_name,
+        "firstname": user.first_name,
+        "title": info.companytitle,
+        "phone": info.phone,
+        "address": info.address,
+        "intro": info.introduction,
+    }
+    content["msg_status"] = "none"
 
-        return render(request, "main/company.html", content)
+    return render(request, "main/company.html", content)
 
 
 @login_required
@@ -265,8 +252,7 @@ def like(request, postid):
         current_post.like += 1
         current_post.save()
         return JsonResponse({"likestatus": True})
-    else:
-        return JsonResponse({"likestatus": False})
+    return JsonResponse({"likestatus": False})
 
 
 @login_required
@@ -285,7 +271,7 @@ def post(request):
 
         uid = request.session.get("user", None)
         user = User.objects.get(username=uid)
-        info = Entrepreneur_content.objects.get(entrepreneur=user)
+        info = EntrepreneurContent.objects.get(entrepreneur=user)
 
         content["companytitle"] = info.companytitle
 
@@ -298,17 +284,16 @@ def post_action(request):
     ):
         uid = request.session.get("user", None)
         company = User.objects.get(username=uid)
-        numOfPost = len(Post.objects.all())
-        companytitle = request.POST.get("companytitle")
+        num_of_post = len(Post.objects.all())
         jobtype = request.POST.get("jobtype")
         title = request.POST.get("title")
         detail = request.POST.get("detail")
         condition = request.POST.get("condition")
         benefit = request.POST.get("benefit")
-        phone = request.POST.get("contact")
+        contact = request.POST.get("contact")
         min_salary = request.POST.get("min_salary")
         Post.objects.create(
-            postid=(numOfPost + 1),
+            postid=(num_of_post + 1),
             entrepreneur=company,
             jobtype=jobtype,
             title=title,
@@ -320,9 +305,7 @@ def post_action(request):
             viewed=0,
             like=0,
         )
-        return HttpResponseRedirect("/main/")
-    else:
-        return HttpResponseRedirect("/main/")
+    return HttpResponseRedirect("/main/")
 
 
 @login_required
@@ -332,7 +315,7 @@ def member_update(request):
     ):
         uid = request.session.get("user", None)
         student = User.objects.get(username=uid)
-        content = Student_content.objects.get(student=student)
+        content = StudentContent.objects.get(student=student)
 
         student.email = request.POST.get("email")
         student.last_name = request.POST.get("lastname")
@@ -350,12 +333,13 @@ def member_update(request):
 
 
 def company_update(request):
-    if (request.session.get("user", None) is not None) and (
-        request.session.get("as", None) == "entrepreneur"
+    if (
+        request.session.get("user")
+        and request.session.get("as") == "entrepreneur"
     ):
         uid = request.session.get("user", None)
         company = User.objects.get(username=uid)
-        content = Entrepreneur_content.objects.get(entrepreneur=company)
+        content = EntrepreneurContent.objects.get(entrepreneur=company)
 
         company.email = request.POST.get("email")
         company.last_name = request.POST.get("lastname")
@@ -411,16 +395,13 @@ def member_update_pwd(request):
                 "main/member.html",
                 {"msg": "確認密碼不正確", "msg_status": "block"},
             )
-        else:
-            user = User.objects.get(username=uid)
-            user.set_password(pwd)
-            user.save()
-            request.session["user"] = uid
-            auth.login(request, user)
-            return HttpResponseRedirect("/main/member/")
-
-    else:
-        return HttpResponseRedirect("/main/")
+        user = User.objects.get(username=uid)
+        user.set_password(pwd)
+        user.save()
+        request.session["user"] = uid
+        auth.login(request, user)
+        return HttpResponseRedirect("/main/member/")
+    return HttpResponseRedirect("/main/")
 
 
 @login_required
@@ -435,14 +416,14 @@ def liked_list(request):
         like_list = LikeList.objects.filter(student=student).order_by("-id")
         post_list = [like.post for like in like_list]
 
-        companytitleList = [
-            Entrepreneur_content.objects.get(
+        companytitle_list = [
+            EntrepreneurContent.objects.get(
                 entrepreneur=single.entrepreneur
             ).companytitle
             for single in post_list
         ]
-        for p, t in zip(post_list, companytitleList):
-            p.comTitle = t
+        for post_, title in zip(post_list, companytitle_list):
+            post_.comTitle = title
 
         content["posts"] = post_list
         if len(post_list) == 0:
@@ -450,8 +431,7 @@ def liked_list(request):
                 "likelist_null"
             ] = '<tr class="no-result text-center"><td colspan="8">現在還沒有最愛的工作喔！</td></tr>'
         return render(request, "main/liked.html", content)
-    else:
-        return HttpResponseRedirect("/main/")
+    return HttpResponseRedirect("/main/")
 
 
 @login_required
@@ -465,21 +445,10 @@ def dislike(request):
         content["id"] = uid
 
         user = User.objects.get(username=uid)
-        p = Post.objects.get(postid=post_id)
+        post_ = Post.objects.get(postid=post_id)
 
-        liked = LikeList.objects.get(student=user, post=p)
+        liked = LikeList.objects.get(student=user, post=post_)
         liked.delete()
 
         return JsonResponse({"dislike_status": True})
-
-    else:
-        return HttpResponseRedirect("/main/")
-
-
-# algorithm
-def sort_by_value(d):
-    items = d.items()
-    backitems = [[v[1], v[0]] for v in items]
-    backitems.sort(reverse=True)
-    return [backitems[i][1] for i in range(0, len(backitems))]
-
+    return HttpResponseRedirect("/main/")

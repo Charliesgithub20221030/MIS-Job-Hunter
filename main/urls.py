@@ -2,7 +2,7 @@ from django.urls import path
 
 from main.views import (
     about,
-    company,
+    company_view,
     company_update,
     company_update_pwd,
     dislike,
@@ -27,7 +27,7 @@ urlpatterns = [
     path("jobs/<int:page>/", jobs),
     path("jobs/like/<int:postid>/", like),
     # 會員中心
-    path("company/", company),
+    path("company/", company_view),
     path("member/", member),
     path("company/update/", company_update),
     path("member/update/", member_update),
