@@ -905,7 +905,6 @@ for l in LIKE:
     POST_IN_LIKE.add(l.post)
 for postL in POST_IN_LIKE:
     numOfLike = len(LikeList.objects.filter(post=postL))
-    # print(postL.entrepreneur,numOfLike)
     postL.like = numOfLike
     postL.save()
 

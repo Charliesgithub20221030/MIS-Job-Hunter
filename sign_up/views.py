@@ -3,12 +3,12 @@ from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 
 
-def member_signup(request):  # name studentId email pwd
-    return render(request, "signup/membersignup.html")
+def member_sign_up(request):  # name studentId email pwd
+    return render(request, "sign_up/membersign_up.html")
 
 
-def company_signup(request):
-    return render(request, "signup/companysignup.html")
+def company_sign_up(request):
+    return render(request, "sign_up/companysign_up.html")
 
 
 #     公司介紹
@@ -34,7 +34,7 @@ def company_signup(request):
 # 更多
 
 
-def member_signup_action(request):
+def member_sign_up_action(request):
     uid = request.POST.get("username")
     email = request.POST.get("email")
     lastn = request.POST.get("lastname")
@@ -42,9 +42,9 @@ def member_signup_action(request):
     pwd = request.POST.get("pwd")
     cpwd = request.POST.get("confirm-pwd")
     if User.objects.filter(username=uid).exists():
-        return render(request, "signup/membersignup.html", {"msg": "帳號已經被使用"})
+        return render(request, "sign_up/membersign_up.html", {"msg": "帳號已經被使用"})
     if pwd != cpwd:
-        return render(request, "signup/membersignup.html", {"msg": "密碼確認錯誤"})
+        return render(request, "sign_up/membersign_up.html", {"msg": "密碼確認錯誤"})
     group = Group.objects.get(name="student")
     User.objects.create(
         username=uid, email=email, first_name=firstn, last_name=lastn
@@ -56,7 +56,7 @@ def member_signup_action(request):
     return HttpResponseRedirect("/login/member/")
 
 
-def company_signup_action(request):
+def company_sign_up_action(request):
     uid = request.POST.get("id")
     email = request.POST.get("email")
     name = request.POST.get("managername")
@@ -65,9 +65,9 @@ def company_signup_action(request):
     pwd = request.POST.get("pwd")
     cpwd = request.POST.get("confirm-pwd")
     if User.objects.filter(username=uid).exists():
-        return render(request, "signup/membersignup.html", {"msg": "帳號已經被使用"})
+        return render(request, "sign_up/membersign_up.html", {"msg": "帳號已經被使用"})
     if pwd != cpwd:
-        return render(request, "signup/membersignup.html", {"msg": "密碼確認錯誤"})
+        return render(request, "sign_up/membersign_up.html", {"msg": "密碼確認錯誤"})
     # user content
     group = Group.objects.get(name="entrepreneur")
     User.objects.create(
