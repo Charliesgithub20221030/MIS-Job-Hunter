@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from main.models import (
     Post,
-    Entrepreneur_content,
-    Student_content,
+    EntrepreneurContent,
+    StudentContent,
     LikeList,
     ViewList,
 )
@@ -54,7 +54,7 @@ def index(request):
     entrepreneur_list = list(set([ent.entrepreneur for ent in post_list]))
     content_list = []
     for ent in entrepreneur_list:
-        content_list.append(Entrepreneur_content.objects.get(entrepreneur=ent))
+        content_list.append(EntrepreneurContent.objects.get(entrepreneur=ent))
     content["first_title_list"] = [con.companytitle for con in content_list][
         :5
     ]
@@ -64,7 +64,7 @@ def index(request):
     entrepreneur_list = list(set([ent.entrepreneur for ent in post_list]))
     content_list = []
     for ent in entrepreneur_list:
-        content_list.append(Entrepreneur_content.objects.get(entrepreneur=ent))
+        content_list.append(EntrepreneurContent.objects.get(entrepreneur=ent))
     content["second_title_list"] = [con.companytitle for con in content_list][
         :5
     ]
@@ -74,7 +74,7 @@ def index(request):
     entrepreneur_list = list(set([ent.entrepreneur for ent in post_list]))
     content_list = []
     for ent in entrepreneur_list:
-        content_list.append(Entrepreneur_content.objects.get(entrepreneur=ent))
+        content_list.append(EntrepreneurContent.objects.get(entrepreneur=ent))
     content["third_title_list"] = [con.companytitle for con in content_list][
         :5
     ]
@@ -106,7 +106,7 @@ def jobs(request, page=1):  #
     if request.is_ajax():
         postid = request.POST.get("postid")
         post_detail = Post.objects.get(postid=postid)
-        companytitle = Entrepreneur_content.objects.get(
+        companytitle = EntrepreneurContent.objects.get(
             entrepreneur=post_detail.entrepreneur
         ).companytitle
         post_content = {
@@ -185,7 +185,7 @@ def jobs(request, page=1):  #
     # Get All post
     post_list = Post.objects.all().order_by("-postid")
     companytitleList = [
-        Entrepreneur_content.objects.get(
+        EntrepreneurContent.objects.get(
             entrepreneur=single.entrepreneur
         ).companytitle
         for single in post_list
@@ -205,7 +205,7 @@ def member(request):
     else:
         uid = request.session.get("user", None)
         user = User.objects.get(username=uid)
-        info = Student_content.objects.get(student=user)
+        info = StudentContent.objects.get(student=user)
 
         content = {}
         content["currentUser"] = request.session.get("as", None)
@@ -231,7 +231,7 @@ def company(request):
         uid = request.session.get("user", None)
         user = User.objects.get(username=uid)
         posts = Post.objects.filter(entrepreneur=user)
-        info = Entrepreneur_content.objects.get(entrepreneur=user)
+        info = EntrepreneurContent.objects.get(entrepreneur=user)
         content = {}
         content["currentUser"] = request.session.get("as", None)
         content["id"] = request.session.get("user", None)
@@ -285,7 +285,7 @@ def post(request):
 
         uid = request.session.get("user", None)
         user = User.objects.get(username=uid)
-        info = Entrepreneur_content.objects.get(entrepreneur=user)
+        info = EntrepreneurContent.objects.get(entrepreneur=user)
 
         content["companytitle"] = info.companytitle
 
@@ -298,17 +298,17 @@ def post_action(request):
     ):
         uid = request.session.get("user", None)
         company = User.objects.get(username=uid)
-        numOfPost = len(Post.objects.all())
+        num_of_post = len(Post.objects.all())
         companytitle = request.POST.get("companytitle")
         jobtype = request.POST.get("jobtype")
         title = request.POST.get("title")
         detail = request.POST.get("detail")
         condition = request.POST.get("condition")
         benefit = request.POST.get("benefit")
-        phone = request.POST.get("contact")
+        contact = request.POST.get("contact")
         min_salary = request.POST.get("min_salary")
         Post.objects.create(
-            postid=(numOfPost + 1),
+            postid=(num_of_post + 1),
             entrepreneur=company,
             jobtype=jobtype,
             title=title,
@@ -332,7 +332,7 @@ def member_update(request):
     ):
         uid = request.session.get("user", None)
         student = User.objects.get(username=uid)
-        content = Student_content.objects.get(student=student)
+        content = StudentContent.objects.get(student=student)
 
         student.email = request.POST.get("email")
         student.last_name = request.POST.get("lastname")
@@ -355,7 +355,7 @@ def company_update(request):
     ):
         uid = request.session.get("user", None)
         company = User.objects.get(username=uid)
-        content = Entrepreneur_content.objects.get(entrepreneur=company)
+        content = EntrepreneurContent.objects.get(entrepreneur=company)
 
         company.email = request.POST.get("email")
         company.last_name = request.POST.get("lastname")
@@ -436,7 +436,7 @@ def liked_list(request):
         post_list = [like.post for like in like_list]
 
         companytitleList = [
-            Entrepreneur_content.objects.get(
+            EntrepreneurContent.objects.get(
                 entrepreneur=single.entrepreneur
             ).companytitle
             for single in post_list

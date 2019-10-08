@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
-from main.models import Entrepreneur_content, Student_content
+from main.models import EntrepreneurContent, StudentContent
 
 
 def member_signup(request):  # name studentId email pwd
@@ -58,7 +58,7 @@ def member_signup_action(request):
         user.save()
         group.user_set.add(user)
 
-        stu = Student_content.objects.create(
+        stu = StudentContent.objects.create(
             student=user, resume=resume, mis_id=mis_id
         )
         return HttpResponseRedirect("/login/member/")
@@ -93,7 +93,7 @@ def company_signup_action(request):
         user.save()
         group.user_set.add(user)
         # entrepreneur_content
-        entre = Entrepreneur_content.objects.create(
+        entre = EntrepreneurContent.objects.create(
             entrepreneur=user,
             companytitle=title,
             phone=phone,

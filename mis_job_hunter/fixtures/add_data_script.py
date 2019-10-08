@@ -698,7 +698,7 @@ addressList = ["臺南市玉井區竹圍里大成路３５１號", "臺北市大
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, Group, Permission
-from main.models import Student_content, Entrepreneur_content, Post, QA, LikeList
+from main.models import StudentContent, EntrepreneurContent, Post, QA, LikeList
 
 
 ## generate group and permission
@@ -766,7 +766,7 @@ for i, name in enumerate(nameList):
             ti = "軟體測試工程師"
 
         ent_group.user_set.add(user)
-        Entrepreneur_content.objects.create(
+        EntrepreneurContent.objects.create(
             entrepreneur=user,
             companytitle=nameList[i%200]+"有限公司",
             introduction="""
@@ -841,7 +841,7 @@ for i, name in enumerate(nameList):
 
     else:
         stu_group.user_set.add(user)
-        Student_content.objects.create(
+        StudentContent.objects.create(
             student=user,
             mis_id=(
                 "B10"

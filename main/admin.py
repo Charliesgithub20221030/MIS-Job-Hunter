@@ -4,10 +4,10 @@ from django.contrib.auth.models import Group, Permission, User
 
 from main.models import (
     QA,
-    Entrepreneur_content,
+    EntrepreneurContent,
     LikeList,
     Post,
-    Student_content,
+    StudentContent,
     ViewList,
 )
 
@@ -29,7 +29,7 @@ class PostAdmin(admin.ModelAdmin):
     )
 
 
-class Entrepreneur_contentAdmin(admin.ModelAdmin):
+class EntrepreneurContentAdmin(admin.ModelAdmin):
     list_display = (
         "entrepreneur",
         "companytitle",
@@ -39,7 +39,7 @@ class Entrepreneur_contentAdmin(admin.ModelAdmin):
     )
 
 
-class Student_contentAdmin(admin.ModelAdmin):
+class StudentContentAdmin(admin.ModelAdmin):
     list_display = ("student", "mis_id", "resume")
 
 
@@ -63,8 +63,8 @@ class ViewListAdmin(admin.ModelAdmin):
 
 
 admin.site.register(QA, QAAdmin)
-admin.site.register(Student_content, Student_contentAdmin)
-admin.site.register(Entrepreneur_content, Entrepreneur_contentAdmin)
+admin.site.register(StudentContent, StudentContentAdmin)
+admin.site.register(EntrepreneurContent, EntrepreneurContentAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(LikeList, LikeListAdmin)
 admin.site.register(ViewList, ViewListAdmin)

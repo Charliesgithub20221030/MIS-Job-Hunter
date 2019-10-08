@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 
 
-class Student_content(models.Model):
+class StudentContent(models.Model):
     student = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True
     )
@@ -13,7 +13,7 @@ class Student_content(models.Model):
         return self.student.username
 
 
-class Entrepreneur_content(models.Model):
+class EntrepreneurContent(models.Model):
     entrepreneur = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True
     )
@@ -48,9 +48,9 @@ class Post(models.Model):
 
 class QA(models.Model):
     qaid = models.IntegerField(primary_key=True)
-    student = models.ForeignKey(Student_content, on_delete=models.CASCADE)
+    student = models.ForeignKey(StudentContent, on_delete=models.CASCADE)
     entrepreneur = models.ForeignKey(
-        Entrepreneur_content, on_delete=models.CASCADE
+        EntrepreneurContent, on_delete=models.CASCADE
     )
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField()

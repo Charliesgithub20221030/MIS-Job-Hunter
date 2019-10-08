@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Entrepreneur_content',
+            name='EntrepreneurContent',
             fields=[
                 ('entrepreneur', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('companytitle', models.CharField(max_length=100)),
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Student_content',
+            name='StudentContent',
             fields=[
                 ('student', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('resume', models.TextField()),
@@ -64,9 +64,9 @@ class Migration(migrations.Migration):
                 ('qaid', models.IntegerField(primary_key=True, serialize=False)),
                 ('content', models.TextField()),
                 ('post_date', models.DateTimeField(auto_now=True)),
-                ('entrepreneur', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.Entrepreneur_content')),
+                ('entrepreneur', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.EntrepreneurContent')),
                 ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.Post')),
-                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.Student_content')),
+                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.StudentContent')),
             ],
         ),
         migrations.CreateModel(
